@@ -3,19 +3,34 @@
     Hello World!
   </h1>
 
-  <h2>Please select your holidays</h2>
+  <h2>Please select your WFH days</h2>
 
   <button mat-icon-button [matMenuTriggerFor]="appMenu">
     <mat-icon>calendar_today</mat-icon>
   </button>
-  <mat-menu #appMenu="matMenu" class="drop-calendar" >
+  <mat-menu #appMenu="matMenu" class="drop-calendar">
     <div (click)="$event.stopPropagation()">
-      
-      <mat-calendar #calendar (selectedChange)="select($event,calendar)" [dateClass]="isSelected"></mat-calendar>
+
+      <mat-calendar #calendar (selectedChange)="select($event,calendar)" [dateClass]="isSelected"
+        [dateFilter]="filterDates"></mat-calendar>
     </div>
   </mat-menu>
   <pre>
   {{daysSelected|json}}
   </pre>
 
-  </div>
+  <pre>
+    Saturdays: {{saturdays.length}}
+    Sundays: {{sundays.length}}
+    Declared Holidays: {{holidaysList.length}}
+      {{holidaysList}}
+    Total WFO days: {{calculateTotalWFODays()}}
+    <hr/>
+    Total WFH days selected: {{daysSelected.length}}
+    Actual WFO days remaining: {{calculateTotalWFODays() - daysSelected.length}}
+    Threshold: {{threshold * 100}} %
+    Total WFO days required to meet Threshhold: {{calculateTotalWFODays() * threshold | number:'1.0-0'}} (Raw: {{calculateTotalWFODays() * threshold}})
+    Remaining WFH to NOT break threshold: {{calculateTotalWFODays() - daysSelected.length - calculateTotalWFODays() * threshold | number:'1.0-0'}}
+  </pre>
+
+</div>
