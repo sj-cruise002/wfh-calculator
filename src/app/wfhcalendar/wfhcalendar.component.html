@@ -1,0 +1,42 @@
+<div>
+    <br />
+    <div class="flex-container">
+
+        <div class="flex-child magenta">
+            <h2>Please select your WFH days</h2>
+
+            <mat-calendar #calendar (selectedChange)="select($event,calendar)" [dateClass]="isSelected"
+                [dateFilter]="filterDates"></mat-calendar>
+        </div>
+
+        <div class="flex-child green">
+            <pre>
+          Saturdays: {{saturdays.length}}
+          Sundays: {{sundays.length}}
+          Declared Holidays: {{holidaysList.length}}
+            {{holidaysList.sort() | json}}
+          Total WFO days: {{calculateTotalWFODays()}}
+          <hr/>
+          Total WFH days selected: {{daysSelected.length}}
+            {{daysSelected.sort() | json}}
+          Actual WFO days remaining: {{calculateTotalWFODays() - daysSelected.length}}
+          Threshold: {{threshold * 100}} %
+          Total WFO days required to meet Threshold: {{calculateTotalWFODays() * threshold | number:'1.0-0'}} (Raw: {{calculateTotalWFODays() * threshold}})
+        </pre>
+        </div>
+    </div>
+    <div>
+        <!-- Inefficient. but works. Its ok, since its a simple calculation.
+ Ideally, it should be in a variable to avoid multiple calculation calls -->
+        <div *ngIf="calculateThresholdBreaker() > 0 ; else other_content">
+            <h2 style="background: yellow; text-align: center;">
+                Remaining WFH to NOT break threshold: {{calculateThresholdBreaker() | number:'1.0-0'}}
+            </h2>
+        </div>
+        <ng-template #other_content>
+            <h2 style="background: green; text-align: center; color: white;">Threashold reached !!</h2>
+        </ng-template>
+    </div>
+
+
+</div>

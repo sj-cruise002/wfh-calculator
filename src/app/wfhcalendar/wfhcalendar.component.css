@@ -1,0 +1,21 @@
+.mat-calendar-body-cell.selected {
+  background-color: red !important;
+  border-radius: 50%
+}
+
+.mat-calendar {
+  width: 30rem
+}
+
+.flex-container {
+  display: flex;
+}
+
+.flex-child {
+  flex: 1;
+  border: 2px solid black;
+}
+
+.flex-child:first-child {
+  margin-right: 10%;
+}
