@@ -1,12 +1,20 @@
 <div>
     <br />
+    <div>
+        <mat-toolbar color="primary">
+            <mat-toolbar-row>
+                <span class="toolbar-spacer"></span>
+                <button mat-button color="primary" (click)="clear()">Clear</button>
+            </mat-toolbar-row>
+        </mat-toolbar>
+    </div>
     <div class="flex-container">
 
         <div class="flex-child magenta">
             <h2>Please select your WFH days</h2>
 
             <mat-calendar #calendar (selectedChange)="select($event,calendar)" [dateClass]="isSelected"
-                [dateFilter]="filterDates"></mat-calendar>
+                [dateFilter]="filterDates" nextEnabled=false></mat-calendar>
         </div>
 
         <div class="flex-child green">

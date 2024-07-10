@@ -1,5 +1,6 @@
-import { Component, ViewEncapsulation, } from '@angular/core';
+import { Component, ViewChild, ViewEncapsulation, } from '@angular/core';
 import { WfhtimetableService } from '../services/wfhtimetable.service';
+import { MatCalendar } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-wfhcalendar',
@@ -16,6 +17,8 @@ export class WfhcalendarComponent {
 
   daysSelected: any[] = [];
 
+  // @ViewChild('myname') input; 
+
   constructor(private timetableService: WfhtimetableService) {
     // Called first time before the ngOnInit()
     this.holidaysList = this.timetableService.getHolidaysList(new Date().getMonth())
@@ -25,7 +28,14 @@ export class WfhcalendarComponent {
   ngOnInit() {
     // Called after the constructor and called after the first ngOnChanges() 
     this.holidaysList = this.timetableService.getHolidaysList(new Date().getMonth())
+  }
 
+  
+  @ViewChild('calendar') wfhCalendar: any;
+
+  clear(){
+    this.daysSelected = []
+    this.wfhCalendar.updateTodaysDate()
   }
 
   isSelected = (event: any) => {

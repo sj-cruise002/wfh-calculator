@@ -4,9 +4,7 @@ import { MatDatepickerModule, MatCalendar } from '@angular/material/datepicker';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon'
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
-
-
-
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,7 +21,8 @@ import { WfhcalendarComponent } from './wfhcalendar/wfhcalendar.component';
     MatIconModule,
     MatNativeDateModule,
     MatRippleModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatToolbarModule
   ],
   providers: [],
   bootstrap: [AppComponent],
