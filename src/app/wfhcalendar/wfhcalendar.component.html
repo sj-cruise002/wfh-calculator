@@ -3,7 +3,17 @@
     <div>
         <mat-toolbar color="primary">
             <mat-toolbar-row>
-                <span class="toolbar-spacer"></span>
+                <span>Month</span>
+                <span class="toolbar-spacer">&nbsp;&nbsp;&nbsp;</span>
+                <mat-select [(value)]="monthSelected" class="month-dropdown-select"
+                    (selectionChange)="changeMonth($event)">
+                    <mat-option *ngFor="let monthName of monthNames" value="{{monthName}}">
+                        <span>{{monthName}}</span>
+                    </mat-option>
+                    <!-- <mat-option value="option1">{{monthName}}</mat-option> -->
+                </mat-select>
+                <span class="toolbar-spacer">&nbsp;&nbsp;&nbsp;</span>
+                <!-- <p>You selected: {{selected}}</p> -->
                 <button mat-button color="primary" (click)="clear()">Clear</button>
             </mat-toolbar-row>
         </mat-toolbar>

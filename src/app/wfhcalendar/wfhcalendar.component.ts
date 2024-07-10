@@ -1,6 +1,5 @@
 import { Component, ViewChild, ViewEncapsulation, } from '@angular/core';
 import { WfhtimetableService } from '../services/wfhtimetable.service';
-import { MatCalendar } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-wfhcalendar',
@@ -9,6 +8,22 @@ import { MatCalendar } from '@angular/material/datepicker';
   encapsulation: ViewEncapsulation.None
 })
 export class WfhcalendarComponent {
+  /* Dropdwnn*/
+  monthNames = [
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
+  ]; // This should be an enum ?
+  monthSelected = this.monthNames[new Date().getMonth()];
+
+  changeMonth(event: any) {
+    const newMonthName = event.value;
+    const newMonthIndex = this.monthNames.indexOf(newMonthName)
+
+    const newDate = new Date(this.calculatorDate.getFullYear(), newMonthIndex, 1)
+    this.wfhCalendar._goToDateInView(newDate, 'month')
+    this.clear()
+  }
+  /* --- */
 
   static title = 'wfh-calculator';
 
@@ -18,10 +33,12 @@ export class WfhcalendarComponent {
   daysSelected: any[] = [];
 
   // @ViewChild('myname') input; 
+  calculatorDate;
 
   constructor(private timetableService: WfhtimetableService) {
     // Called first time before the ngOnInit()
-    this.holidaysList = this.timetableService.getHolidaysList(new Date().getMonth())
+    this.calculatorDate = new Date()
+    this.holidaysList = this.timetableService.getHolidaysList(this.calculatorDate.getMonth())
     this.threshold = this.timetableService.threshold
   }
 
@@ -30,10 +47,10 @@ export class WfhcalendarComponent {
     this.holidaysList = this.timetableService.getHolidaysList(new Date().getMonth())
   }
 
-  
+
   @ViewChild('calendar') wfhCalendar: any;
 
-  clear(){
+  clear() {
     this.daysSelected = []
     this.wfhCalendar.updateTodaysDate()
   }

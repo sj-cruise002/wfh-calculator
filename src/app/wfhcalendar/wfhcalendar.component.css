@@ -28,3 +28,15 @@
 .toolbar-spacer {
   flex: 1 1 auto;
 }
+
+/* .mat-toolbar-row {
+  background: white;
+} */
+
+/* Drop down */
+.month-dropdown-select {
+  /* !important is needed to override mat-toolbar theme */
+  background: lightblue !important;
+  width: 30rem !important;
+  text-align: center !important;
+}
