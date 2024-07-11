@@ -16,18 +16,25 @@ export class WfhcalendarComponent {
   monthSelected = this.monthNames[new Date().getMonth()];
 
   changeMonth(event: any) {
+    console.log("Changing the console month: " + event)
     const newMonthName = event.value;
     const newMonthIndex = this.monthNames.indexOf(newMonthName)
 
     const newDate = new Date(this.calculatorDate.getFullYear(), newMonthIndex, 1)
+    this.calculatorDate = newDate
+
+    // Programatically change the month
     this.wfhCalendar._goToDateInView(newDate, 'month')
+
+    // Reset the calendar and calculator for the new month
     this.clear()
+
   }
   /* --- */
 
   static title = 'wfh-calculator';
 
-  holidaysList: string[]
+  holidaysList: string[];
   threshold: any
 
   daysSelected: any[] = [];
@@ -38,21 +45,33 @@ export class WfhcalendarComponent {
   constructor(private timetableService: WfhtimetableService) {
     // Called first time before the ngOnInit()
     this.calculatorDate = new Date()
-    this.holidaysList = this.timetableService.getHolidaysList(this.calculatorDate.getMonth())
+    
+    this.holidaysList = []
     this.threshold = this.timetableService.threshold
   }
 
   ngOnInit() {
     // Called after the constructor and called after the first ngOnChanges() 
-    this.holidaysList = this.timetableService.getHolidaysList(new Date().getMonth())
+    this.generateHolidaysList()
   }
 
+  generateHolidaysList() {
+    const monthId = this.calculatorDate.getMonth()
+    this.holidaysList = this.timetableService.getHolidaysList(monthId)
+  }
 
   @ViewChild('calendar') wfhCalendar: any;
 
   clear() {
+    this.wfhCalendar.updateTodaysDate() // This needs to be done first, as the calendar's events get triggered
+    
+
+    // Now, reset the fields.
     this.daysSelected = []
-    this.wfhCalendar.updateTodaysDate()
+    this.saturdays = []
+    this.sundays = []
+    
+    this.ngOnInit()
   }
 
   isSelected = (event: any) => {
@@ -105,14 +124,16 @@ export class WfhcalendarComponent {
     }
     return true
   }
+
   getDateFromEvent(event: any) {
     const date = event.getFullYear() + "-" + ("00" + (event.getMonth() + 1)).slice(-2) + "-" + ("00" + event.getDate()).slice(-2);
 
     return date;
   }
+
   calculateTotalWFODays() {
     // TODO: Make this dynamic. For now, this assumes you don't change the month, and all holidays are in same month etc etc
-    const anyOneDate = new Date()
+    const anyOneDate = this.calculatorDate
 
     const totalDaysInThisMonth = new Date(anyOneDate.getFullYear(), anyOneDate.getMonth() + 1, 0).getDate()
     const totalWFODays = totalDaysInThisMonth - this.saturdays.length - this.sundays.length - this.holidaysList.length
